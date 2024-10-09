@@ -1,0 +1,21 @@
+{
+    "login": {
+        "title": "Connection",
+        "email": "Please enter your email",
+        "failure": "Missed"
+    },
+    "edit_screen": {
+        "number_editor": [
+            {
+                "title": "Edit number 1",
+                "button": "Edit 1"
+            },
+            {},
+            {
+                "title": "Edit number 1",
+                "button": "Edit 1"
+            }
+        ],
+        "edit": "Edit your information"
+    }
+}

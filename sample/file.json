@@ -1,0 +1,16 @@
+{
+    "login": {
+      "title": "Connexion",
+      "email": "S'il vous plaît, entrez votre email",
+      "failure": "Manquée"
+    },
+    "edit_screen": {
+      "edit": "Modifier vos informations",
+      "number_editor": [
+        {
+          "title": "Modifier le numéro 1",
+          "button": "Éditer 1"
+        }
+      ]
+    }
+  }
