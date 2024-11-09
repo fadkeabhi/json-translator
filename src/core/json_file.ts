@@ -14,18 +14,18 @@ export async function fileTranslator(
   newFileName: string
 ) {
   // step: get file details -> data, path
-  let { jsonObj, objectPath } = await getFileFromPath(tempObjectPath);
-  if (jsonObj === undefined) {
+  const file: { jsonObj: any; objectPath: string } = await getFileFromPath(tempObjectPath);
+  const rawjsonObj = file.jsonObj
+  const objectPath = file.objectPath
+  if (rawjsonObj === undefined) {
     error(messages.file.no_file_in_path);
     return;
   }
 
   // if file extension is .jsonl convert the readed file to json with array of each line of the json file
-  if (objectPath.endsWith('.jsonl')) {
-    jsonObj = { data: jsonObj.split('\n').map((line: string) => JSON.parse(line)) };
-  } else {
-    jsonObj = { data: JSON.parse(jsonObj) };
-  }
+  const jsonObj = objectPath.endsWith('.jsonl')
+    ? { data: rawjsonObj.split('\n').map((line: string) => JSON.parse(line)) }
+    : { data: JSON.parse(rawjsonObj) };
 
   // step: check if translation file already exists, if exists save content of it in oldTranslations
   let oldTranslations = JSON.parse("{}")
@@ -57,7 +57,7 @@ export async function fileTranslator(
   }
 
   // if jsonl file force to translate all keys
-  const forceTranslateOldTranslations = !objectPath.endsWith('.jsonl');
+  const forceTranslateOldTranslations = objectPath.endsWith('.jsonl');
 
   // step: translate object
   let newJsonObj = await objectTranslator(TranslationConfig, jsonObj, from, to, oldTranslations, forceTranslateOldTranslations);

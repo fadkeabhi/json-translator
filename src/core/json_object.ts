@@ -14,7 +14,7 @@ export async function objectTranslator(
   from: string,
   to: string[],
   oldTranslations: { [key: string]: any },
-  forceTranslateOldTranslations: boolean = true
+  forceTranslateOldTranslations: boolean = false
 ): Promise<translatedObject[]> {
   queue.concurrency = TranslationConfig.concurrencyLimit;
 
@@ -25,19 +25,20 @@ export async function objectTranslator(
       Object.keys(to).map(async function (index) {
         const indexAsNum = Number(index);
 
-        let copyObject = object
-        if (forceTranslateOldTranslations) {
-          // Remove the keys which are already translated
-          copyObject = removeKeys(JSON.parse(JSON.stringify(object)), oldTranslations[to[indexAsNum]]);
-        }
+        const copyObject = forceTranslateOldTranslations
+          ? removeKeys(JSON.parse(JSON.stringify(object)), oldTranslations[to[indexAsNum]])
+          : object;
 
+        console.log("copyObject Befire",to[indexAsNum], JSON.stringify(copyObject, null, 2))
 
         const newTranslations = await deepDiver(
           TranslationConfig,
           copyObject,
           from,
           to[indexAsNum]
-        );
+        )
+
+        console.log("Object after",to[indexAsNum], JSON.stringify(object, null, 2))
         if (forceTranslateOldTranslations) {
           // Insert old translations that we removed into the generalObject
           generalObject[indexAsNum] = mergeKeys(oldTranslations[to[indexAsNum]], newTranslations);
@@ -46,6 +47,8 @@ export async function objectTranslator(
         }
       })
     );
+
+
 
     return generalObject as translatedObject[];
   } else {

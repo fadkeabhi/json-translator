@@ -71,7 +71,6 @@ export async function translateWithBing(
     to,
     false
   );
-
   return translation;
 }
 

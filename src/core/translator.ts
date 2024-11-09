@@ -44,7 +44,7 @@ export async function plaintranslate(
     global.totalTranslated = global.totalTranslated + 1;
 
     
-    console.log("Plain translate", to, translatedStr)
+    console.log("Plain translate",ignored_str, to, translatedStr)
     return translatedStr;
   } catch (e) {
     // error case
