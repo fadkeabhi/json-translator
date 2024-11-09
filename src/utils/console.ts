@@ -110,6 +110,10 @@ export function removeKeys(fromDict: any, toDict: any): any {
     return fromDict;
   }
 
+  if (Array.isArray(fromDict)) {
+    return fromDict;
+  }
+
   if (typeof fromDict !== 'object' || fromDict === null) {
     return fromDict;
   }
